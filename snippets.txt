@@ -1,0 +1,42 @@
+
+# Usefull link
+https://www.mlq.ai/python-for-finance-time-series-analysis/
+
+
+#---------------------- FFT
+# Remember to remove the DC component
+# https://docs.scipy.org/doc/scipy/tutorial/fft.html#d-discrete-fourier-transforms
+# https://dsp.stackexchange.com/questions/62286/fft-giving-a-huge-magnitude-of-first-frequency-and-pretty-much-zero-after-that
+from scipy.fft import fft, fftfreq
+N = len(g)
+T = 1/(g['date'].max()-g['date'].min()).days
+y = g['high'].values
+yf = fft(y)
+xf = fftfreq(N, T)[:N//2]
+plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
+plt.grid()
+plt.show()
+
+
+#------------------------ Plot Grapohs
+import matplotlib.pyplot as plt
+data, data_ma5, data_entry, data_exit, trades = run(dfg,"ALT", 2)
+fig, ax = plt.subplots(1, 2)
+ax[0].plot(data['date'], data_ma5['mid_hl'])
+ax[0].plot(data['date'], data['mid_hl'])
+ax[0].grid(True)
+ax[0].tick_params(labelrotation=45, labelsize='xx-small')
+
+ax[0].scatter(x=data_exit['date'], y=data_exit['mid_hl'], c='r')
+ax[0].scatter(x=data_entry['date'], y=data_entry['mid_hl'], c='g')
+
+ax[1].plot(data['date'], data['mid_hl'] - data_ma5['mid_hl'])
+ax[1].plot(data['date'], data_ma5['dr_hl'])
+ax[1].grid(True)
+ax[1].tick_params(labelrotation=45, labelsize='xx-small')
+plt.show()
+
+#----------------------- Plotly
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
+fig.show()

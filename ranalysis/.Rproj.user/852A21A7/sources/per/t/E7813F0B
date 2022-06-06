@@ -1,0 +1,28 @@
+{
+    "id": "E7813F0B",
+    "path": "C:/projects/pystocks/ranalysis/analysis.Rmd",
+    "project_path": "analysis.Rmd",
+    "type": "r_markdown",
+    "hash": "1896763086",
+    "contents": "",
+    "dirty": false,
+    "created": 1652342123419.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "chunk_output_type": "inline",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "16,40",
+        "scrollLine": "9"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1653002337,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1653002337728,
+    "read_only": false,
+    "read_only_alternatives": []
+}
