@@ -1,4 +1,0 @@
-"0","trade_stats <- fread('../trade_stats.csv')"
-"0",""
-"0","ggplot(trade_stats,aes(x=date,y=position)) + geom_line()"
-"0",""

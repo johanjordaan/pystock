@@ -8,29 +8,61 @@ require(ggplot2)
 require(dplyr)
 require(data.table)
 require(tidyr)
+require(stringr)
+require(tools)
 ```
 
 
 ```{r}
-trade_stats <- fread('../trade_stats.csv')
+process_file <- function(filename) {
+  raw_positions <- fread(filename)
 
-ggplot(trade_stats,aes(x=date,y=position)) + geom_line()
+  positions <- raw_positions %>% mutate(
+    value = price * num_shares,
+    type = ifelse(tkr == 'CASH','CASH','STOCK')
+  ) 
+
+  # Extract extra information from filename 
+  #
+  filename_data <- file_path_sans_ext(basename(filename))
+  strategy <- ''
+  for(item in str_split(filename_data,"-")[[1]]) {
+    tokens <- str_split(str_replace(item,"]",""),"\\[")
+    for(token in tokens) {
+      if(token[1]=='strategy') {
+        strategy <- token[2]
+      }
+      positions <- positions %>% mutate("{token[1]}":=token[2])  
+    }
+  }
+
+  pg <- positions %>% group_by(date,type) %>% summarise(v = sum(value))
+  value_per_day <- positions %>% group_by(date) %>% summarise(v = sum(value))
+  
+  pl <- ggplot(pg,aes(x=date,y=v,fill=type)) + geom_bar(stat = "identity") + ggtitle(filename_data)
+  
+  pl2 <- ggplot(value_per_day,aes(x=date,y=v)) +geom_line() + ggtitle(filename_data) +ylim(0,100000)
+  
+  
+  return(list(pl,positions,strategy,pl2))
+}
+
+
+print(process_file("../strategy[daily_range_breakout]-window[3]-stop_loss_perc[0.05].csv")[[1]])
+print(process_file("../strategy[daily_range_breakout]-window[3]-stop_loss_perc[0.05].csv")[[2]])
+print(process_file("../strategy[daily_range_breakout]-window[3]-stop_loss_perc[0.05].csv")[[3]])
+print(process_file("../strategy[daily_range_breakout]-window[3]-stop_loss_perc[0.05].csv")[[4]])
 
 ```
-
-
-
-
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
 
 ```{r}
-plot(cars)
+results_path = "../results"
+result_files <- list.files(path = results_path, pattern = "*.csv")
+for(result_file in result_files) {
+  result <- process_file(file.path(results_path,result_file))
+  print(result[[4]])
+  
+}
+
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

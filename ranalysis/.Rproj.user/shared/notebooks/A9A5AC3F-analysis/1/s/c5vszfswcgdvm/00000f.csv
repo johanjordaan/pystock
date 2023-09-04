@@ -2,3 +2,5 @@
 "0","require(dplyr)"
 "0","require(data.table)"
 "0","require(tidyr)"
+"0","require(stringr)"
+"0","require(tools)"

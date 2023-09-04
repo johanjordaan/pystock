@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+src/config.py
+
+results
+src/__pycache__
+.idea

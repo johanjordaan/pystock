@@ -3,3 +3,5 @@ pandas
 matplotlib
 scipy
 plotly
+requests
+selenium

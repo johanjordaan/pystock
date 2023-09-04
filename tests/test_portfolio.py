@@ -21,15 +21,13 @@ class Test_run(TestCase):
             companies_data, isin_data, isin_types.ORDINARY_FULLY_PAID
         )
 
-        print(portfolio_data)
-
         stop_loss_perc = .1
         max_trade_amount = 1000
         starting_capital = 100000
         def cost_fn(amound):
             return 10
 
-        portfolio.run(
+        portfolio_positions = portfolio.run(
             portfolio_data,
             companies_data,
             isin_data,
@@ -39,4 +37,7 @@ class Test_run(TestCase):
             stop_loss_perc,
             starting_capital
         )
+
+        self.assertEqual(864,  len(portfolio_positions))
+
 

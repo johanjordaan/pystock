@@ -1,0 +1,4 @@
+# Copy this file to config.py and replace the relevant details
+username = '44435'
+password = 'password'
+destination = "z:\\data"

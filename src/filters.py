@@ -20,14 +20,15 @@ def isin_type_filter(day_end_data, companies_data, isin_data, isin_types):
     if not isinstance(isin_types,list):
         isin_types = [isin_types]
     ordinary_fully_paid_tkrs = isin_data[isin_data[field_names.ISIN_TYPE].isin(isin_types)][field_names.TKR].to_list()
-    return tkr_filter(day_end_data, companies_data, isin_data,ordinary_fully_paid_tkrs)
+    return tkr_filter(day_end_data, companies_data, isin_data, ordinary_fully_paid_tkrs)
 
 
 def tkr_filter(day_end_data, companies_data, isin_data, tkrs):
-    if not isinstance(tkrs,list):
+    if not isinstance(tkrs, list):
         tkrs = [tkrs]
     filtered_data = day_end_data[day_end_data[field_names.TKR].isin(tkrs)].copy()
     return filtered_data
+
 
 def equal_data_by_tkr_filter(day_end_data, companies_data, isin_data):
     counts = day_end_data.groupby(field_names.TKR).count()
